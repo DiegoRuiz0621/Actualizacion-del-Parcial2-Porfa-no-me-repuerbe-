@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-217dp">
+
+        <EditText
+            android:id="@+id/IDREceta"
+            android:layout_width="41dp"
+            android:layout_height="wrap_content"
+            android:hint="ID" />
+
+        <EditText
+            android:id="@+id/editTextTitulo"
+            android:layout_width="202dp"
+            android:layout_height="wrap_content"
+            android:hint="Título de la receta" />
+
+        <EditText
+            android:id="@+id/editTextDescripcion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Descripción de la receta" />
+
+        <Button
+            android:id="@+id/btnAgregarReceta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="Agregar Receta" />
+
+
+        <Button
+            android:id="@+id/btnEditarReceta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="Guardar Cambios" />
+
+        <Button
+            android:id="@+id/btnBorrar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="Borrar Receta" />
+
+        <EditText
+            android:id="@+id/editTextNuevoTitulo"
+            android:layout_width="202dp"
+            android:layout_height="wrap_content"
+            android:hint="Nuevo Título de la receta" />
+
+        <EditText
+            android:id="@+id/editTextNuevaDescripcion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Nueva Descripción de la receta" />
+
+        <ListView
+            android:id="@+id/listarecetas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
