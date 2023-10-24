@@ -14,93 +14,107 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private CRUDRecetas CRUD;
+    private ArrayAdapter<String> Adaptador;
+    private ArrayList<String> listaRecetitas;
+    private ListView listarecetas;
+
+    private EditText IDreceta, editTextTitulo, editTextDescripcion;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnBorrar= findViewById(R.id.btnBorrar);
-        CRUDRecetas CRUD = new CRUDRecetas(this);
-        ArrayList<String> listaRecetitas = new ArrayList<String>();
-        CRUD.insertarReceta("Chilaquiles", "rica comida casera");
+        CRUD = new CRUDRecetas(this);
+        listaRecetitas = new ArrayList<>();
+        listarecetas = findViewById(R.id.listarecetas);
 
         Button btnAgregarReceta = findViewById(R.id.btnAgregarReceta);
+        Button btnEditarReceta = findViewById(R.id.btnEditarReceta);
+        Button btnBorrar = findViewById(R.id.btnBorrar);
+
+        IDreceta = findViewById(R.id.IDreceta);
+        editTextTitulo = findViewById(R.id.editTextTitulo);
+        editTextDescripcion = findViewById(R.id.editTextDescripcion);
+
+
         btnAgregarReceta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Añadir una nueva receta a la base de datos
-                CRUD.insertarReceta("Nueva Receta", "Descripción de la nueva receta");
-
-                // Actualizar la lista de recetas mostradas
-                listaRecetitas.clear();
-                Cursor informacion = CRUD.mostrarRecetas();
-                while (informacion.moveToNext()) {
-                    String titulo = informacion.getString(1);
-                    listaRecetitas.add(titulo);
+                String titulo = editTextTitulo.getText().toString();
+                String descripcion = editTextDescripcion.getText().toString();
+                if (!titulo.isEmpty() && !descripcion.isEmpty()) {
+                    CRUD.insertarReceta(titulo, descripcion);
                 }
             }
         });
-        EditText ID = findViewById(R.id.IDREceta);
 
-        Button btnGuardarCambios = findViewById(R.id.btnEditarReceta);
-        btnGuardarCambios.setOnClickListener(new View.OnClickListener() {
+        btnEditarReceta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Obtener los valores actualizados de título y descripción
-                EditText nuevotitulo= findViewById(R.id.editTextNuevoTitulo);
-                EditText vuevadescripcion= findViewById(R.id.editTextNuevaDescripcion);
+                String IDString = IDreceta.getText().toString();
+                String titulo = editTextTitulo.getText().toString();
+                String descripcion = editTextDescripcion.getText().toString();
 
-                String nuevoTitulotext = nuevotitulo.getText().toString();
-                String nuevaDescripciontext = vuevadescripcion.getText().toString();
+                if (!IDString.isEmpty()) {
+                    int id = Integer.parseInt(IDString);
+                    if (!titulo.isEmpty() && !descripcion.isEmpty()) {
+                        CRUD.actualizarReceta(id, titulo, descripcion);
+                        refrescarlista();
+                        limpiarcampo();
+                    } else {
+                        Cursor c = CRUD.mostrarRecetas();
+                        while (c.moveToNext()) {
+                            if (c.getInt(0) == id) {
+                                editTextTitulo.setText(c.getString(1));
+                                editTextDescripcion.setText(c.getString(2));
+                                break;
 
-
-
-                // Actualizar la receta en la base de datos
-                CRUD.actualizarReceta(ID,nuevoTitulotext, nuevaDescripciontext);
-
-                // Actualizar la lista de recetas mostradas
-                listaRecetitas.clear();
-                Cursor informacion = CRUD.mostrarRecetas();
-                while (informacion.moveToNext()) {
-                    String tituloReceta = informacion.getString(1);
-                    listaRecetitas.add(tituloReceta);
+                            }
+                        }
+                    }
                 }
             }
         });
 
-        EditText titulo= findViewById(R.id.editTextTitulo);
-        EditText descripcion= findViewById(R.id.editTextDescripcion);
-
-
-
-
-        String TituloText = titulo.getText().toString();
-        String DescripcionText = descripcion.getText().toString();
-
-
-
-       // CRUD.insertarReceta(TituloText, DescripcionText);
-       // CRUD.actualizarReceta(id, TituloText, DescripcionText);
-
-        ListView listaRecetas=findViewById(R.id.listarecetas);
-        Cursor informacion=CRUD.mostrarRecetas();
-
-        while (informacion.moveToNext()){
-            String tituloText=informacion.getString(1);
-            listaRecetitas.add(tituloText);
-
-
-        }
-        ArrayAdapter<String> adaptador=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,listaRecetitas);
-        listaRecetas.setAdapter(adaptador);
 
         btnBorrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CRUD.eliminarReceta(1);
-
+                String IDString = IDreceta.getText().toString();
+                if(!IDString.isEmpty()){
+                int id = Integer.parseInt(IDString);
+                    CRUD.eliminarReceta(id);
+                    refrescarlista();
+                    limpiarcampo();
+                }
             }
         });
+    }
+    // Método para refrescar la lista de recetas
+    private void refrescarlista() {
+        listaRecetitas.clear();
+        Cursor c = CRUD.mostrarRecetas();
+
+        while (c.moveToNext()) {
+            String tituloReceta = c.getString(1);
+            listaRecetitas.add(tituloReceta);
+        }
+        c.close();
+
+        Adaptador.notifyDataSetChanged();
+    }
+
+    // Método para limpiar los campos de entrada
+    private void limpiarcampo() {
+        IDreceta.setText("");
+        editTextTitulo.setText("");
+        editTextDescripcion.setText("");
 
 
     }

@@ -54,4 +54,5 @@ public class CRUDRecetas extends SQLiteOpenHelper {
         SQLiteDatabase bd = this.getWritableDatabase();
         bd.delete("recetas", "id=?", new String[]{String.valueOf(id)});
     }
+
 }

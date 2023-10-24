@@ -16,7 +16,7 @@
         tools:layout_editor_absoluteY="-217dp">
 
         <EditText
-            android:id="@+id/IDREceta"
+            android:id="@+id/IDreceta"
             android:layout_width="41dp"
             android:layout_height="wrap_content"
             android:hint="ID" />
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:text="Guardar Cambios" />
+            android:text="Editar Receta" />
 
         <Button
             android:id="@+id/btnBorrar"
@@ -54,18 +54,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:text="Borrar Receta" />
-
-        <EditText
-            android:id="@+id/editTextNuevoTitulo"
-            android:layout_width="202dp"
-            android:layout_height="wrap_content"
-            android:hint="Nuevo Título de la receta" />
-
-        <EditText
-            android:id="@+id/editTextNuevaDescripcion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Nueva Descripción de la receta" />
 
         <ListView
             android:id="@+id/listarecetas"
